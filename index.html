@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNT — Internet & le Web</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05080f;--s1:#0d1220;--s2:#131b2e;--s3:#1a243d;--bd:#243050;
+  --c1:#4fc3f7;--c2:#81c784;--c3:#ffb74d;--c4:#f06292;--c5:#ce93d8;
+  --tx:#dce8f5;--mu:#6a7f9e;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden;line-height:1.65}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 40% at 10% 15%,rgba(79,195,247,.07) 0%,transparent 70%),
+             radial-gradient(ellipse 50% 35% at 90% 85%,rgba(129,199,132,.05) 0%,transparent 70%)}
+#pbar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));width:0%;transition:width .5s;z-index:999;box-shadow:0 0 8px var(--c1)}
+header{position:relative;z-index:10;text-align:center;padding:52px 20px 24px}
+.chip{display:inline-block;background:rgba(79,195,247,.1);border:1px solid rgba(79,195,247,.25);color:var(--c1);font-size:.7rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:18px}
+h1{font-family:'Fraunces',serif;font-size:clamp(2.2rem,7vw,4.2rem);font-weight:900;line-height:1.05;
+  background:linear-gradient(130deg,#fff 0%,var(--c1) 40%,var(--c2) 80%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:14px}
+.sub{color:var(--mu);font-size:.95rem;max-width:540px;margin:0 auto}
+#steps{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:20px;position:relative;z-index:10}
+.dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--bd);background:var(--s2);color:var(--mu);font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.dot.on{border-color:var(--c1);color:var(--c1);box-shadow:0 0 10px rgba(79,195,247,.3)}
+.dot.ok{background:var(--c2);border-color:var(--c2);color:#000}
+.dot.lock{opacity:.25}
+main{max-width:840px;margin:0 auto;padding:0 18px 100px;position:relative;z-index:10}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:28px 32px;margin-bottom:20px;position:relative;overflow:hidden;transition:opacity .4s}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.c1::before{background:linear-gradient(90deg,var(--c1),var(--c5))}
+.c2::before{background:linear-gradient(90deg,var(--c3),var(--c5))}
+.c3::before{background:linear-gradient(90deg,var(--c2),var(--c1))}
+.c4::before{background:linear-gradient(90deg,var(--c3),var(--c4))}
+.c5::before{background:linear-gradient(90deg,var(--c5),var(--c4))}
+.c6::before{background:linear-gradient(90deg,var(--c3),var(--c2))}
+.locked{opacity:.3;pointer-events:none;filter:blur(1px)}
+.ch{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.ci{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.ci1{background:linear-gradient(135deg,rgba(79,195,247,.25),rgba(206,147,216,.2))}
+.ci2{background:linear-gradient(135deg,rgba(255,183,77,.2),rgba(206,147,216,.2))}
+.ci3{background:linear-gradient(135deg,rgba(129,199,132,.25),rgba(79,195,247,.2))}
+.ci4{background:linear-gradient(135deg,rgba(255,183,77,.25),rgba(240,98,146,.2))}
+.ci5{background:linear-gradient(135deg,rgba(206,147,216,.25),rgba(240,98,146,.2))}
+.ci6{background:linear-gradient(135deg,rgba(255,183,77,.25),rgba(129,199,132,.2))}
+h2{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;color:#fff}
+.tag{font-size:.72rem;color:var(--mu);margin-top:2px}
+h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--c1);margin:20px 0 10px}
+h3.g{color:var(--c2)}h3.o{color:var(--c3)}h3.v{color:var(--c5)}
+p{color:var(--mu);font-size:.92rem;margin-bottom:10px}
+p strong{color:var(--tx)}
+a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
+.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin:14px 0}
+.ic{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.ic .em{font-size:1.8rem;margin-bottom:6px}
+.ic .lb{font-size:.7rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px}
+.ic .vl{font-size:.92rem;font-weight:700;color:var(--tx);margin-top:3px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+.tbl th{padding:10px 14px;font-weight:700;text-align:left;border-bottom:1px solid var(--bd)}
+.tbl th:first-child{color:var(--c3)}.tbl th:last-child{color:var(--c1)}
+.tbl td{padding:9px 14px;border-top:1px solid var(--bd);color:var(--mu)}
+.tbl td:last-child{color:var(--tx)}
+.schema{display:flex;align-items:center;flex-wrap:wrap;gap:6px;background:var(--s2);border-radius:10px;padding:16px;margin:14px 0;justify-content:center}
+.sb{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;font-size:.78rem;font-weight:600;text-align:center;min-width:72px}
+.sb span{display:block;font-size:1.1rem;margin-bottom:4px}
+.sa{color:var(--c1);font-size:1.1rem;font-weight:700}
+.note{background:rgba(79,195,247,.05);border:1px solid rgba(79,195,247,.18);border-left:3px solid var(--c1);border-radius:8px;padding:14px 16px;margin:14px 0;font-size:.88rem;color:var(--tx)}
+.note.g{background:rgba(129,199,132,.05);border-color:rgba(129,199,132,.18);border-left-color:var(--c2)}
+.note.o{background:rgba(255,183,77,.05);border-color:rgba(255,183,77,.18);border-left-color:var(--c3)}
+.vwrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;margin:16px 0;border:1px solid var(--bd)}
+.vwrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.btn{display:block;width:100%;margin-top:22px;background:linear-gradient(135deg,var(--c1),var(--c5));color:#000;font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;padding:14px;border:none;border-radius:10px;cursor:pointer;transition:all .25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(79,195,247,.25)}
+.btn.g{background:linear-gradient(135deg,var(--c2),var(--c1))}
+.btn.o{background:linear-gradient(135deg,var(--c3),var(--c4))}
+.btn.v{background:linear-gradient(135deg,var(--c5),var(--c4))}
+.excard{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:20px;margin:18px 0}
+.extitle{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;color:var(--mu);margin-bottom:14px;font-weight:700}
+.qblock{margin-bottom:22px}
+.qtxt{font-weight:600;font-size:.92rem;color:var(--tx);padding:12px 14px;background:var(--s3);border-radius:8px;border-left:3px solid var(--c1);margin-bottom:10px}
+.qtxt.g{border-left-color:var(--c2)}.qtxt.o{border-left-color:var(--c3)}.qtxt.v{border-left-color:var(--c5)}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;align-items:center;gap:10px;background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:11px 14px;cursor:pointer;transition:all .2s;font-size:.88rem;color:var(--mu)}
+.opt:hover{border-color:var(--c5);color:var(--tx)}
+.opt.sel{border-color:var(--c1);background:rgba(79,195,247,.07);color:var(--tx)}
+.opt.ok{border-color:var(--c2)!important;background:rgba(129,199,132,.08);color:var(--c2)!important}
+.opt.ko{border-color:var(--c4)!important;background:rgba(240,98,146,.08);color:var(--c4)!important}
+.radio{width:16px;height:16px;border-radius:50%;border:2px solid var(--bd);flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.opt.sel .radio,.opt.ok .radio,.opt.ko .radio{border-color:currentColor}
+.opt.sel .radio::after,.opt.ok .radio::after,.opt.ko .radio::after{content:'';width:7px;height:7px;border-radius:50%;background:currentColor}
+.expl{font-size:.8rem;margin-top:6px;padding:8px 12px;border-radius:6px;display:none}
+.expl.show{display:block}
+.expl.ok{background:rgba(129,199,132,.08);color:var(--c2)}
+.expl.ko{background:rgba(240,98,146,.08);color:var(--c4)}
+.vfg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.vfb{padding:11px;border:1px solid var(--bd);border-radius:8px;background:var(--s1);cursor:pointer;font-weight:700;font-size:.88rem;transition:all .2s;color:var(--mu)}
+.vfb.v:hover{border-color:var(--c2);color:var(--c2)}.vfb.f:hover{border-color:var(--c4);color:var(--c4)}
+.vfb.ok{border-color:var(--c2);background:rgba(129,199,132,.1);color:var(--c2)}
+.vfb.ko{border-color:var(--c4);background:rgba(240,98,146,.1);color:var(--c4)}
+.awrap{display:flex;gap:14px;flex-wrap:wrap}
+.acol{flex:1;min-width:140px}
+.albl{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--mu);margin-bottom:8px;font-weight:700}
+.ai{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:9px 12px;margin-bottom:6px;font-size:.83rem;cursor:pointer;transition:all .2s;color:var(--mu)}
+.ai:hover:not(.matched){border-color:var(--c5);color:var(--tx)}
+.ai.sel{border-color:var(--c1);color:var(--c1)}
+.ai.matched{border-color:var(--c2);color:var(--c2);background:rgba(129,199,132,.07);cursor:default}
+.ai.err{border-color:var(--c4);color:var(--c4);animation:shake .4s}
+/* FRISE */
+.fkw-list{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 20px}
+.fkw{background:rgba(206,147,216,.12);border:1px solid rgba(206,147,216,.35);color:var(--c5);padding:7px 16px;border-radius:100px;font-size:.88rem;font-weight:700}
+.cbank{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:14px;margin:12px 0}
+.cbank-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);font-weight:700;margin-bottom:10px}
+.cpool{display:flex;flex-wrap:wrap;gap:7px}
+.ctok{padding:7px 13px;border-radius:7px;font-size:.8rem;font-weight:600;cursor:grab;user-select:none;transition:all .2s;border:1px solid}
+.ctok.dt{background:rgba(255,183,77,.1);border-color:rgba(255,183,77,.35);color:var(--c3)}
+.ctok.df{background:rgba(79,195,247,.08);border-color:rgba(79,195,247,.25);color:var(--c1);font-size:.75rem;line-height:1.3}
+.ctok:hover{transform:scale(1.03)}.ctok.drag{opacity:.3}.ctok.used{display:none}
+.ftl{display:flex;flex-direction:column;gap:12px;margin:18px 0}
+.frow{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:14px}
+.frowtitle{font-size:.82rem;font-weight:700;color:var(--c5);margin-bottom:10px;display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+.frowtitle span{flex-shrink:0;font-size:.75rem;margin-top:2px}
+.freveal{display:block;font-size:.72rem;font-weight:700;color:var(--c2);letter-spacing:1px;text-transform:uppercase;margin-top:5px;opacity:.9}
+.fcaps{display:flex;gap:8px;flex-wrap:wrap}
+.cap{flex:1;min-height:48px;background:var(--bg);border:2px dashed var(--bd);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.78rem;color:var(--mu);text-align:center;padding:6px 10px;cursor:pointer;transition:all .2s;position:relative}
+.cap.dc{flex:0 0 76px;min-width:76px;font-weight:700}.cap.dfc{flex:1;min-width:140px}
+.clbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);position:absolute;top:-8px;left:8px;background:var(--s2);padding:0 4px;white-space:nowrap}
+.cap.over{border-color:var(--c1);background:rgba(79,195,247,.06)}
+.cap.filled{border-style:solid;border-color:var(--c5);color:var(--tx);font-weight:600;cursor:pointer;font-size:.78rem}
+.cap.ok{border-color:var(--c2)!important;background:rgba(129,199,132,.08);color:var(--c2)!important}
+.cap.ko{border-color:var(--c4)!important;background:rgba(240,98,146,.08);color:var(--c4)!important}
+/* GAP */
+.gp{font-size:.92rem;color:var(--tx);line-height:2.6;background:var(--s2);border-radius:10px;padding:18px}
+.gin{display:inline-block;min-width:90px;border:none;border-bottom:2px solid var(--c1);background:transparent;color:var(--c1);font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;text-align:center;outline:none;padding:2px 6px;transition:all .2s}
+.gin:focus{background:rgba(79,195,247,.05);border-radius:4px}
+.gin.ok{border-bottom-color:var(--c2);color:var(--c2)}.gin.ko{border-bottom-color:var(--c4);color:var(--c4)}
+.wbank{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.wtok{background:rgba(206,147,216,.12);border:1px solid rgba(206,147,216,.3);color:var(--c5);padding:5px 13px;border-radius:100px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}
+.wtok:hover{background:rgba(206,147,216,.22);transform:scale(1.04)}
+.wtok.used{opacity:.25;text-decoration:line-through;pointer-events:none}
+/* FB */
+.fb{margin-top:10px;padding:11px 14px;border-radius:8px;font-size:.83rem;font-weight:600;display:none;line-height:1.6}
+.fb.ok{background:rgba(129,199,132,.1);border:1px solid rgba(129,199,132,.3);color:var(--c2);display:block}
+.fb.ko{background:rgba(240,98,146,.1);border:1px solid rgba(240,98,146,.3);color:var(--c4);display:block}
+/* TEST */
+#tbtn{position:fixed;bottom:26px;right:26px;background:linear-gradient(135deg,var(--c4),var(--c3));color:#000;border:none;border-radius:14px;padding:14px 22px;cursor:pointer;z-index:500;font-family:'Fraunces',serif;font-weight:900;font-size:1rem;box-shadow:0 6px 28px rgba(240,98,146,.4);display:none;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 6px 28px rgba(240,98,146,.4)}50%{box-shadow:0 6px 44px rgba(240,98,146,.7)}}
+#tbtn:hover{transform:scale(1.04)}
+#ov{display:none;position:fixed;inset:0;background:var(--bg);z-index:900;overflow-y:auto;padding:36px 18px 60px}
+#ov.on{display:block}
+.ovh{text-align:center;margin-bottom:36px}
+.ovh h2{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;color:var(--c4);margin-bottom:6px}
+.tq{max-width:660px;margin:0 auto 20px;background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:22px}
+.tq::before{content:'';display:block;height:2px;margin:-22px -22px 18px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,var(--c4),var(--c3))}
+.tqn{color:var(--mu);font-size:.72rem;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.tqt{font-weight:600;font-size:.95rem;color:var(--tx);margin-bottom:14px}
+.to{display:flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:11px 14px;margin-bottom:7px;cursor:pointer;transition:all .2s;font-size:.88rem;color:var(--mu)}
+.to:hover{border-color:var(--c4);color:var(--tx)}.to.sel{border-color:var(--c1);background:rgba(79,195,247,.07);color:var(--tx)}
+#bsub{max-width:660px;display:none;margin:4px auto;background:linear-gradient(135deg,var(--c4),var(--c3));color:#000;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;padding:15px;border:none;border-radius:10px;cursor:pointer;transition:all .25s;width:100%}
+#bsub:hover{transform:translateY(-2px)}
+#bwarn{max-width:660px;display:block;margin:8px auto;background:var(--s2);border:2px dashed var(--c3);color:var(--c3);font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:700;padding:13px;border-radius:10px;cursor:pointer;width:100%}
+#bwarn:hover{background:rgba(255,183,77,.07)}
+#cancelled{display:none;text-align:center;max-width:600px;margin:60px auto;padding:36px;background:rgba(240,98,146,.07);border:2px solid var(--c4);border-radius:18px}
+#cancelled h3{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--c4);margin-bottom:10px}
+.btn-rs{margin-top:18px;background:var(--c1);color:#000;border:none;border-radius:8px;padding:12px 24px;font-family:'Outfit',sans-serif;font-weight:700;cursor:pointer;font-size:.95rem}
+#sdisplay{display:none;max-width:660px;margin:40px auto;padding:40px;background:var(--s1);border:1px solid var(--bd);border-radius:22px;position:relative;overflow:hidden;text-align:center}
+#sdisplay::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4))}
+.sn{font-family:'Fraunces',serif;font-size:5.5rem;font-weight:900;line-height:1}
+.sn.hi{color:var(--c2);text-shadow:0 0 40px rgba(129,199,132,.4)}
+.sn.mi{color:var(--c3);text-shadow:0 0 40px rgba(255,183,77,.4)}
+.sn.lo{color:var(--c4);text-shadow:0 0 40px rgba(240,98,146,.4)}
+.scmt{font-size:1rem;color:var(--tx);margin-top:16px;font-weight:600}
+.bilan{margin-top:24px;text-align:left;background:var(--s2);border-radius:10px;padding:16px}
+.btitle{font-size:.72rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);font-weight:700;margin-bottom:12px}
+.bitem{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:.85rem}
+.bitem:last-child{border-bottom:none}
+.bnum{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.bnum.ok{background:rgba(129,199,132,.15);color:var(--c2);border:1px solid var(--c2)}
+.bnum.ko{background:rgba(240,98,146,.15);color:var(--c4);border:1px solid var(--c4)}
+.bmsg.ko{color:var(--c4)}
+.ordre-item{cursor:pointer;border:1px solid var(--bd);border-radius:8px;padding:10px 14px;margin-bottom:6px;font-size:.86rem;color:var(--mu);background:var(--s2);transition:all .2s}
+.ordre-item:hover:not(.sel){border-color:var(--c5);color:var(--tx)}
+.ordre-item.sel{border-color:var(--c1);background:rgba(79,195,247,.1);color:var(--tx)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media(max-width:560px){.card{padding:18px}.vfg{grid-template-columns:1fr}.awrap{flex-direction:column}.fcaps{flex-direction:column}.cap.dc{flex:none;width:100%}}
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+<header>
+  <div class="chip">SNT · Secondes · Séance 1</div>
+  <h1>Internet &amp; le Web</h1>
+  <p class="sub">Travail en autonomie — valide chaque étape pour débloquer la suivante.</p>
+</header>
+<div id="steps">
+  <div class="dot on" id="d0">1</div>
+  <div class="dot lock" id="d1">2</div>
+  <div class="dot lock" id="d2">3</div>
+  <div class="dot lock" id="d3">4</div>
+  <div class="dot lock" id="d4">5</div>
+  <div class="dot lock" id="d5">6</div>
+</div>
+<main>
+
+<!-- ═══ ÉTAPE 0 — FRISE (EN PREMIER) ═══ -->
+<div class="card c1" id="s0">
+  <div class="ch"><div class="ci ci1">🔍</div>
+    <div><h2>Repères historiques — à toi de chercher !</h2><div class="tag">Exercice de recherche · Avant le cours</div></div>
+  </div>
+  <p>Avant le cours, tu vas <strong>construire toi-même</strong> les repères historiques d'Internet et du Web. Fais des recherches pour trouver les dates et comprendre chaque terme, puis complète la frise.</p>
+  <div class="note" style="font-size:.83rem">🔍 <strong>Outils :</strong> moteur de recherche, <a href="https://fr.wikipedia.org" target="_blank">fr.wikipedia.org ↗</a></div>
+  <div class="fkw-list">
+    <span class="fkw">ARPANET</span><span class="fkw">TCP/IP</span><span class="fkw">Tim Berners-Lee</span>
+    <span class="fkw">1ère page web</span><span class="fkw">Netscape</span><span class="fkw">Web 2.0</span>
+    <span class="fkw">iPhone</span><span class="fkw">IA générative</span>
+  </div>
+  <div class="note g" style="font-size:.85rem;margin-top:4px">
+    🖱️ <strong>Comment ça marche :</strong><br>
+    1. <strong>Clique sur une date</strong> → elle se place automatiquement dans le premier trou vide de la frise.<br>
+    2. <strong>Clique sur une définition</strong> → même principe, premier trou vide disponible.<br>
+    3. <strong>Erreur ?</strong> Clique sur la case dans la frise pour retirer l'élément et le remettre dans la banque.
+  </div>
+  <div class="cbank">
+    <div class="cbank-lbl">📅 Banque de dates — clique pour placer</div>
+    <div class="cpool" id="pool-d"></div>
+  </div>
+  <div class="cbank">
+    <div class="cbank-lbl">📝 Banque de définitions — clique pour placer</div>
+    <div class="cpool" id="pool-f"></div>
+  </div>
+  <p style="font-size:.75rem;color:var(--mu);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin:18px 0 8px">📅 Ta frise :</p>
+  <div class="ftl" id="ftl"></div>
+  <div id="fb0" class="fb"></div>
+  <button class="btn" id="btn-frise" onclick="checkFrise()">🔍 Vérifier ma frise</button>
+</div>
+
+<!-- ═══ ÉTAPE 1 — CÂBLES SOUS-MARINS ═══ -->
+<div class="card c2 locked" id="s1">
+  <div class="ch"><div class="ci ci2">🌊</div>
+    <div><h2>L'infrastructure physique d'Internet</h2><div class="tag">Cours · Bloc 1 / 4</div></div>
+  </div>
+  <p>Tu imagines peut-être tes données voyager "dans le cloud". La réalité est bien plus spectaculaire — et physique.</p>
+  <h3 class="o">99% du trafic = câbles sous-marins</h3>
+  <p>Malgré le Wi-Fi et les satellites, <strong>99% du trafic Internet mondial</strong> transite par des câbles posés au fond des océans. Ces câbles à <strong>fibre optique</strong> transportent les données sous forme d'<strong>impulsions lumineuses</strong>, à des vitesses proches de celle de la lumière.</p>
+  <div class="igrid">
+    <div class="ic"><div class="em">🔌</div><div class="lb">Câbles actifs</div><div class="vl">+500 dans le monde</div></div>
+    <div class="ic"><div class="em">📏</div><div class="lb">Longueur totale</div><div class="vl">1,3 million km</div></div>
+    <div class="ic"><div class="em">📊</div><div class="lb">Part du trafic</div><div class="vl">99%</div></div>
+    <div class="ic"><div class="em">💡</div><div class="lb">Technologie</div><div class="vl">Fibre optique</div></div>
+  </div>
+  <div class="note">💡 1,3 million km = plus de <strong>3× la distance Terre–Lune</strong>. Ces câbles ne font que quelques centimètres de diamètre — comme un tuyau d'arrosage.</div>
+  <div class="igrid">
+    <div class="ic"><div class="em">🌊</div><div class="lb">Câbles sous-marins</div><div class="vl" style="font-size:.8rem">Relient les continents au fond des océans</div></div>
+    <div class="ic"><div class="em">🔀</div><div class="lb">Routeurs</div><div class="vl" style="font-size:.8rem">Aiguillent chaque paquet de données</div></div>
+    <div class="ic"><div class="em">🏭</div><div class="lb">Datacenters</div><div class="vl" style="font-size:.8rem">Bâtiments hébergeant les serveurs</div></div>
+    <div class="ic"><div class="em">🛰️</div><div class="lb">Satellites</div><div class="vl" style="font-size:.8rem">Zones isolées — 1% du trafic seulement</div></div>
+  </div>
+  <h3 class="o">🗺️ Carte interactive</h3>
+  <p>Observe le réseau mondial en temps réel : <a href="https://www.submarinecablemap.com" target="_blank">submarinecablemap.com ↗</a></p>
+  <h3 class="o">🎬 Vidéo Arte — "Câbles sous-marins : la guerre invisible" (13 min)</h3>
+  <div class="note o" style="font-size:.83rem;margin-bottom:8px">
+    🎧 <strong>Consignes :</strong> Regarde attentivement la vidéo <strong>en entier</strong>, prends des notes si besoin avant de répondre aux questions.<br>
+    Si tu n'as pas tes écouteurs, active les <strong>sous-titres</strong> (icône CC sur YouTube).
+  </div>
+  <div class="vwrap">
+    <iframe src="https://www.youtube.com/embed/vDcFu77bGcI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+  <div class="excard">
+    <div class="extitle">✏️ 6 questions sur la vidéo — réponds après visionnage</div>
+    <div class="qblock" id="q1a">
+      <div class="qtxt o">1. Combien de câbles sous-marins sillonnent les fonds des océans dans le monde ?</div>
+      <div class="opts" data-c="1">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Environ 50</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Plus de 400</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Environ 1 000</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Une dizaine seulement</div>
+      </div>
+      <div class="expl ko" id="q1a-ko">❌ La vidéo l'annonce clairement dès le début : plus de 400 câbles sous-marins, représentant 1,3 million de km, forment le réseau nerveux d'Internet.</div>
+      <div class="expl ok" id="q1a-ok">✅ Exact ! Plus de 400 câbles, pour 1,3 million de km au total — soit 3 fois la distance Terre-Lune.</div>
+    </div>
+    <div class="qblock" id="q1b">
+      <div class="qtxt o">2. Comment les données voyagent-elles physiquement dans un câble à fibre optique ?</div>
+      <div class="opts" data-c="2">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Par des courants électriques</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Par des ondes radio</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Par des impulsions lumineuses (laser)</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Par des signaux magnétiques</div>
+      </div>
+      <div class="expl ko" id="q1b-ko">❌ La fibre optique utilise la lumière — des flashs laser qui pulsent à des milliards de fois par seconde dans un fil de verre plus fin qu'un cheveu.</div>
+      <div class="expl ok" id="q1b-ok">✅ Des impulsions lumineuses — des lasers qui envoient des milliards de signaux par seconde dans un fil de verre. C'est pourquoi les débits sont si importants.</div>
+    </div>
+    <div class="qblock" id="q1c">
+      <div class="qtxt o">3. La vidéo montre qu'endommager un câble peut avoir des conséquences dramatiques. Quel territoire illustre ce risque ?</div>
+      <div class="opts" data-c="2">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>L'Islande, coupée d'Europe pendant une semaine</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>La France, isolée après une tempête en Atlantique</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Les Tonga, privées d'Internet après une éruption volcanique</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Le Japon, dont les câbles ont été coupés lors d'un tremblement de terre</div>
+      </div>
+      <div class="expl ko" id="q1c-ko">❌ La vidéo cite les Tonga : en 2022, l'éruption du volcan Hunga Tonga a sectionné le seul câble reliant l'archipel, le coupant d'Internet pendant des semaines.</div>
+      <div class="expl ok" id="q1c-ok">✅ Les Tonga en 2022 — l'éruption a tranché le câble sous-marin. Résultat : des semaines sans Internet. Un câble unique = une vulnérabilité totale.</div>
+    </div>
+    <div class="qblock" id="q1d">
+      <div class="qtxt o">4. Selon la vidéo, pourquoi les câbles sous-marins sont-ils des cibles stratégiques dans un conflit ?</div>
+      <div class="opts" data-c="1">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Car ils transportent de l'électricité en plus des données</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Car les couper peut paralyser les communications et l'économie d'un pays entier</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Car ils servent aussi de pipelines pour le gaz naturel</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Car ils contiennent des capteurs militaires secrets</div>
+      </div>
+      <div class="expl ko" id="q1d-ko">❌ Les câbles transportent la quasi-totalité du trafic Internet, y compris les transactions bancaires et les communications gouvernementales. Les couper = paralyser un pays.</div>
+      <div class="expl ok" id="q1d-ok">✅ Exact. 99% du trafic passe par eux — banques, hôpitaux, armées. Les endommager est un acte de guerre numérique efficace et difficile à attribuer.</div>
+    </div>
+    <div class="qblock" id="q1e">
+      <div class="qtxt o">5. Selon la vidéo, qui déploie de plus en plus ses propres câbles, au détriment des opérateurs télécom traditionnels ?</div>
+      <div class="opts" data-c="3">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Les services secrets américains (NSA)</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Les opérateurs télécom historiques (Orange, Deutsche Telekom…)</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Les gouvernements de l'UE dans le cadre d'un projet commun</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Les géants du numérique (Google, Meta, Amazon, Microsoft)</div>
+      </div>
+      <div class="expl ko" id="q1e-ko">❌ Google, Meta, Amazon et Microsoft financent et déploient leurs propres câbles transatlantiques. Google possède par exemple le câble Dunant entre la France et les USA.</div>
+      <div class="expl ok" id="q1e-ok">✅ Les GAFAM possèdent déjà plus de la moitié des câbles transatlantiques — un enjeu de souveraineté numérique majeur que la vidéo analyse en détail.</div>
+    </div>
+    <div class="qblock" id="q1f">
+      <div class="qtxt o">6. D'après la vidéo, quel terme désigne le fait que les données d'un pays transitent par des câbles contrôlés par des entreprises ou États étrangers ?</div>
+      <div class="opts" data-c="0">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Un enjeu de souveraineté numérique</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Un protocole de routage international</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Un accord de libre-échange numérique</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Une cyberattaque passive</div>
+      </div>
+      <div class="expl ko" id="q1f-ko">❌ La vidéo parle de souveraineté numérique : qui contrôle les câbles contrôle potentiellement les données qui y transitent. C'est l'enjeu central du documentaire.</div>
+      <div class="expl ok" id="q1f-ok">✅ La souveraineté numérique — la capacité d'un État à maîtriser ses propres infrastructures numériques. Un débat politique très actuel en Europe.</div>
+    </div>
+    <div id="fb1" class="fb"></div>
+    <button class="btn o" onclick="checkBlock(1)">Valider et continuer →</button>
+  </div>
+</div>
+
+<!-- ═══ ÉTAPE 2 — INTERNET ≠ WEB ═══ -->
+<div class="card c3 locked" id="s2">
+  <div class="ch"><div class="ci ci3">🌐</div>
+    <div><h2>Internet ≠ le Web</h2><div class="tag">Cours · Bloc 2 / 4</div></div>
+  </div>
+  <p>C'est la confusion la plus répandue en SNT. Pourtant, la distinction est fondamentale.</p>
+  <table class="tbl">
+    <thead><tr><th>🔌 Internet</th><th>🕸️ Le Web</th></tr></thead>
+    <tbody>
+      <tr><td>Réseau physique mondial d'appareils connectés</td><td>Un <em>service</em> qui fonctionne sur Internet</td></tr>
+      <tr><td>Né dans les années 1960 (ARPANET)</td><td>Inventé en 1989 par Tim Berners-Lee au CERN</td></tr>
+      <tr><td>Câbles, routeurs, datacenters</td><td>Pages consultées via un navigateur et des URL</td></tr>
+    </tbody>
+  </table>
+  <div class="note g">💡 <strong>Analogie :</strong> Internet = le réseau routier. Le Web = les voitures. Mais d'autres "véhicules" utilisent aussi ce réseau : <strong>emails, appels vidéo, jeux en ligne, streaming musical</strong>… Aucun n'est "le Web".</div>
+  <h3 class="g">🎬 Vidéo — "C'est quoi la différence entre Internet et le Web ?" (5 min)</h3>
+  <div class="note g" style="font-size:.83rem;margin-bottom:8px">
+    🎧 <strong>Consignes :</strong> Regarde attentivement, prends des notes sur les exemples donnés avant de répondre.<br>
+    Pas d'écouteurs ? Active les <strong>sous-titres</strong> (icône CC sur YouTube).
+  </div>
+  <div class="vwrap">
+    <iframe src="https://www.youtube.com/embed/GqD6AiaRo3U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+  <div class="excard">
+    <div class="extitle">✏️ 5 questions sur la vidéo, le cours et les protocoles</div>
+    <div class="qblock" id="q2a">
+      <div class="qtxt g">1. Dans la vidéo, quelle analogie est utilisée pour expliquer la relation entre Internet et le Web ?</div>
+      <div class="opts" data-c="2">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Internet est une voiture, le Web est sa carrosserie</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Internet est le Web en version améliorée</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Internet est le réseau routier, le Web est un type de véhicule qui l'emprunte</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Internet est un navigateur, le Web est le serveur</div>
+      </div>
+      <div class="expl ko" id="q2a-ko">❌ Internet = les routes et autoroutes. Le Web = un type de véhicule parmi d'autres (emails, jeux en ligne sont d'autres véhicules). Cette analogie est au cœur de la vidéo.</div>
+      <div class="expl ok" id="q2a-ok">✅ L'analogie de la route : Internet est l'infrastructure (les routes), le Web est un usage parmi d'autres, comme un type de véhicule parmi d'autres.</div>
+    </div>
+    <div class="qblock" id="q2b">
+      <div class="qtxt g">2. Quel protocole le Web utilise-t-il pour échanger des données entre un navigateur et un serveur ?</div>
+      <div class="opts" data-c="1">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>SMTP (Simple Mail Transfer Protocol)</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>HTTP / HTTPS (HyperText Transfer Protocol)</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>FTP (File Transfer Protocol)</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>TCP/IP (Transmission Control Protocol)</div>
+      </div>
+      <div class="expl ko" id="q2b-ko">❌ Le Web repose sur HTTP (ou HTTPS pour la version sécurisée). SMTP est le protocole des emails, FTP sert au transfert de fichiers, TCP/IP est la base de tout Internet.</div>
+      <div class="expl ok" id="q2b-ok">✅ HTTP/HTTPS — c'est le "langage" que parlent navigateur et serveur. Les autres protocoles (SMTP, FTP) existent aussi sur Internet, mais ne font pas partie du Web.</div>
+    </div>
+    <div class="qblock" id="q2c">
+      <div class="qtxt g">3. Lequel de ces usages utilise Internet SANS utiliser le Web ?</div>
+      <div class="opts" data-c="1">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Consulter la page Wikipédia de "Tim Berners-Lee" dans Chrome</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Envoyer un email depuis l'application Thunderbird (protocole SMTP)</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Regarder une vidéo sur youtube.com dans Firefox</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Lire un article sur lemonde.fr dans Safari</div>
+      </div>
+      <div class="expl ko" id="q2c-ko">❌ Wikipedia, YouTube.com et lemonde.fr sont consultés via HTTP dans un navigateur — c'est du Web. Un client email comme Thunderbird utilise SMTP/IMAP, pas HTTP. Internet oui, Web non.</div>
+      <div class="expl ok" id="q2c-ok">✅ Un client email utilise le protocole SMTP (pour envoyer) et IMAP (pour recevoir) — pas HTTP. Il utilise Internet sans passer par le Web.</div>
+    </div>
+    <div class="qblock" id="q2d">
+      <div class="qtxt g">4. TCP/IP est le protocole fondamental d'Internet. À quoi sert-il ?</div>
+      <div class="opts" data-c="0">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Découper les données en paquets et les acheminer à travers les réseaux du monde entier</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Chiffrer les données pour les sécuriser</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Afficher les pages HTML dans un navigateur</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Relier physiquement les câbles sous-marins entre eux</div>
+      </div>
+      <div class="expl ko" id="q2d-ko">❌ TCP/IP est le protocole de base d'Internet (depuis 1983) : il découpe les données en petits paquets, les envoie par des chemins différents, et les recompose à l'arrivée.</div>
+      <div class="expl ok" id="q2d-ok">✅ TCP/IP = le langage universel d'Internet. Il gère le découpage en paquets et leur acheminement. HTTP (le Web), SMTP (emails) et FTP (fichiers) fonctionnent tous par-dessus TCP/IP.</div>
+    </div>
+    <div class="qblock" id="q2e">
+      <div class="qtxt g">5. Qui a inventé le Web, et en quelle année ?</div>
+      <div class="opts" data-c="0">
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Tim Berners-Lee, en 1989, au CERN (Genève)</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Bill Gates, en 1995, pour lancer Internet Explorer</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Tim Berners-Lee, en 1969, pour relier les universités américaines</div>
+        <div class="opt" onclick="pick(this)"><div class="radio"></div>Marc Andreessen, en 1993, avec la création de Netscape</div>
+      </div>
+      <div class="expl ko" id="q2e-ko">❌ Tim Berners-Lee, 1989, CERN. ARPANET date de 1969 (c'est Internet, pas le Web). Netscape (1994) est le premier navigateur grand public, pas l'inventeur du Web.</div>
+      <div class="expl ok" id="q2e-ok">✅ Tim Berners-Lee, 1989, CERN. Il publie sa proposition d'un système de documents liés par hypertextes — ce qui deviendra le World Wide Web.</div>
+    </div>
+    <div id="fb2" class="fb"></div>
+    <button class="btn g" onclick="checkBlock(2)">Valider et continuer →</button>
+  </div>
+</div>
+
+<!-- ═══ ÉTAPE 3 — FONCTIONNEMENT DU WEB ═══ -->
+<div class="card c4 locked" id="s3">
+  <div class="ch"><div class="ci ci4">⚙️</div>
+    <div><h2>Comment fonctionne le Web ?</h2><div class="tag">Cours · Bloc 3 / 4</div></div>
+  </div>
+  <p>Le Web repose sur 4 notions clés que tous les ordinateurs du monde respectent.</p>
+  <div class="igrid">
+    <div class="ic"><div class="em">📍</div><div class="lb">URL</div><div class="vl" style="font-size:.74rem">
+  <div style="color:var(--c3);font-weight:700;font-size:.72rem;letter-spacing:.5px;margin-bottom:3px">Uniform Resource Locator</div>
+  <div style="color:var(--mu);font-size:.7rem;font-style:italic;margin-bottom:4px">= "Localisateur Uniforme de Ressource"</div>
+  Adresse unique de chaque ressource sur le Web<br>
+  <code style="color:var(--c1);font-size:.68rem">https://education.fr/page</code>
+</div></div>
+    <div class="ic"><div class="em">🤝</div><div class="lb">HTTP / HTTPS</div><div class="vl" style="font-size:.74rem">
+  <div style="color:var(--c3);font-weight:700;font-size:.72rem;letter-spacing:.5px;margin-bottom:3px">HyperText Transfer Protocol</div>
+  <div style="color:var(--mu);font-size:.7rem;font-style:italic;margin-bottom:4px">= "Protocole de Transfert HyperTexte"</div>
+  Règles de dialogue navigateur ↔ serveur<br>
+  <span style="color:var(--c2);font-weight:700">S</span> = <em>Secure</em> : données chiffrées 🔒
+</div></div>
+    <div class="ic"><div class="em">📝</div><div class="lb">HTML</div><div class="vl" style="font-size:.74rem">
+  <div style="color:var(--c3);font-weight:700;font-size:.72rem;letter-spacing:.5px;margin-bottom:3px">HyperText Markup Language</div>
+  <div style="color:var(--mu);font-size:.7rem;font-style:italic;margin-bottom:4px">= "Langage de Balises HyperTexte"</div>
+  Structure le contenu des pages web<br>
+  <code style="color:var(--c1);font-size:.68rem">&lt;h1&gt;Titre&lt;/h1&gt;</code>
+</div></div>
+    <div class="ic"><div class="em">🖥️</div><div class="lb">Navigateur</div><div class="vl" style="font-size:.78rem">Chrome, Firefox… : interprète et affiche le HTML</div></div>
+  </div>
+  <h3 class="v">Le schéma client / serveur</h3>
+  <div class="schema">
+    <div class="sb"><span>🖥️</span>Navigateur<br><small>(client)</small></div>
+    <div class="sa">→</div>
+    <div class="sb" style="border-color:rgba(79,195,247,.4);color:var(--c1)"><span>📨</span>Requête HTTP</div>
+    <div class="sa">→</div>
+    <div class="sb"><span>🏭</span>Serveur</div>
+    <div class="sa">→</div>
+    <div class="sb" style="border-color:rgba(129,199,132,.4);color:var(--c2)"><span>📄</span>Réponse HTML</div>
+    <div class="sa">→</div>
+    <div class="sb"><span>🌐</span>Page affichée</div>
+  </div>
+  <div class="note o">💡 Toujours vérifier le cadenas 🔒 dans la barre d'adresse avant de saisir un mot de passe — cela confirme que tu es en <strong>HTTPS</strong>.</div>
+  <div class="excard">
+    <div class="extitle">✏️ Association — Relie chaque terme à son rôle</div>
+    <p style="font-size:.82rem;margin-bottom:12px">Clique sur un terme à gauche, puis sur sa définition à droite.</p>
+    <div class="awrap">
+      <div class="acol">
+        <div class="albl">Termes</div>
+        <div class="ai" id="at-html" onclick="pa('term','html',this)">HTML</div>
+        <div class="ai" id="at-http" onclick="pa('term','http',this)">HTTP</div>
+        <div class="ai" id="at-url" onclick="pa('term','url',this)">URL</div>
+        <div class="ai" id="at-nav" onclick="pa('term','nav',this)">Navigateur</div>
+        <div class="ai" id="at-srv" onclick="pa('term','srv',this)">Serveur</div>
+      </div>
+      <div class="acol">
+        <div class="albl">Définitions</div>
+        <div class="ai" id="ad-url" onclick="pa('def','url',this)">Adresse unique d'une page web</div>
+        <div class="ai" id="ad-srv" onclick="pa('def','srv',this)">Machine qui stocke et renvoie les pages</div>
+        <div class="ai" id="ad-http" onclick="pa('def','http',this)">Protocole de communication navigateur ↔ serveur</div>
+        <div class="ai" id="ad-html" onclick="pa('def','html',this)">Langage balisé structurant le contenu d'une page</div>
+        <div class="ai" id="ad-nav" onclick="pa('def','nav',this)">Logiciel qui interprète le HTML et affiche la page</div>
+      </div>
+    </div>
+    <div id="fb3" class="fb"></div>
+    <button class="btn v" id="btn-assoc" onclick="checkAssoc()" disabled>Valider et continuer →</button>
+  </div>
+</div>
+
+<!-- ═══ ÉTAPE 4 — SYNTHÈSE ═══ -->
+<div class="card c5 locked" id="s4">
+  <div class="ch"><div class="ci ci5">🧩</div>
+    <div><h2>Synthèse — Texte à trous</h2><div class="tag">Exercice final · Tout le cours</div></div>
+  </div>
+  <p>Complète ce texte avec les mots de la banque. Clique sur un mot, puis sur le champ à remplir. <strong>Attention : il y a des intrus !</strong></p>
+  <div class="gp">
+    Internet est un <input class="gin" id="g0" data-ans="réseau" onclick="focusGap(this)" readonly placeholder="___"> physique mondial. Son infrastructure repose principalement sur des <input class="gin" id="g1" data-ans="câbles" onclick="focusGap(this)" readonly placeholder="___"> sous-marins en fibre optique qui transportent <input class="gin" id="g2" data-ans="99" onclick="focusGap(this)" readonly placeholder="___">% du trafic mondial. Les données y circulent sous forme d'impulsions <input class="gin" id="g3" data-ans="lumineuses" onclick="focusGap(this)" readonly placeholder="___">. Le Web est l'un des <input class="gin" id="g4" data-ans="services" onclick="focusGap(this)" readonly placeholder="___"> qui utilisent Internet : on y accède grâce à un <input class="gin" id="g5" data-ans="navigateur" onclick="focusGap(this)" readonly placeholder="___">. Chaque page possède une <input class="gin" id="g6" data-ans="URL" onclick="focusGap(this)" readonly placeholder="___"> unique et son contenu est structuré en <input class="gin" id="g7" data-ans="HTML" onclick="focusGap(this)" readonly placeholder="___">. La version sécurisée du protocole s'appelle <input class="gin" id="g8" data-ans="HTTPS" onclick="focusGap(this)" readonly placeholder="___">.
+  </div>
+  <div class="wbank" id="wbank">
+    <span class="wtok" data-w="HTML" onclick="pickWord(this)">HTML</span>
+    <span class="wtok" data-w="satellite" onclick="pickWord(this)">satellite</span>
+    <span class="wtok" data-w="navigateur" onclick="pickWord(this)">navigateur</span>
+    <span class="wtok" data-w="99" onclick="pickWord(this)">99</span>
+    <span class="wtok" data-w="email" onclick="pickWord(this)">email</span>
+    <span class="wtok" data-w="HTTPS" onclick="pickWord(this)">HTTPS</span>
+    <span class="wtok" data-w="câbles" onclick="pickWord(this)">câbles</span>
+    <span class="wtok" data-w="protocole" onclick="pickWord(this)">protocole</span>
+    <span class="wtok" data-w="URL" onclick="pickWord(this)">URL</span>
+    <span class="wtok" data-w="lumineuses" onclick="pickWord(this)">lumineuses</span>
+    <span class="wtok" data-w="services" onclick="pickWord(this)">services</span>
+    <span class="wtok" data-w="réseau" onclick="pickWord(this)">réseau</span>
+  </div>
+  <div id="fb4" class="fb"></div>
+  <button class="btn o" onclick="checkGap()">Vérifier ma synthèse →</button>
+</div>
+
+<!-- ═══ ÉTAPE 5 — TERMINÉ ═══ -->
+<div class="card locked" id="s5" style="text-align:center">
+  <div style="font-size:3rem;margin-bottom:12px">🎉</div>
+  <h2 style="font-family:'Fraunces',serif;font-size:1.6rem;color:#fff;margin-bottom:10px">Cours terminé !</h2>
+  <p>Tu as validé toutes les étapes. Le <strong>test final</strong> apparaît en bas à droite.</p>
+  <p style="margin-top:8px">Prends 2 minutes pour revoir tes points faibles avant de te lancer. Appelle ton professeur <em>après</em> avoir obtenu ta note.</p>
+</div>
+</main>
+
+<button id="tbtn" onclick="openTest()">🎯 TEST FINAL</button>
+
+<div id="ov">
+  <div class="ovh" id="ovh">
+    <div class="chip">Évaluation finale</div>
+    <h2>⏱️ TEST FINAL</h2>
+    <p style="color:var(--mu)">14 questions · Réponds à tout avant de valider !</p>
+  </div>
+  <div id="tqs"></div>
+  <button id="bsub" onclick="submitTest()">📊 Calculer mon score</button>
+  <button id="bwarn" onclick="cancelTest()">✋ Appelle ton professeur avant de cliquer !</button>
+  <div id="cancelled">
+    <h3>❌ Test annulé !</h3>
+    <p style="color:var(--mu)">Tu as cliqué sans appeler ton professeur. Score effacé. Recommence.</p>
+    <button class="btn-rs" onclick="openTest()">🔄 Recommencer</button>
+  </div>
+  <div id="sdisplay">
+    <div style="font-size:.85rem;color:var(--mu);margin-bottom:6px">Ta note</div>
+    <div class="sn" id="sn"></div>
+    <div style="font-size:.95rem;color:var(--mu);margin-top:6px">/ 20</div>
+    <div class="scmt" id="scmt"></div>
+    <div class="bilan" id="bilan"></div>
+    <div style="margin-top:24px;text-align:center">
+      <a href="snt_principes_cles.pdf" download style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--c2),var(--c1));color:#000;font-weight:700;font-size:.92rem;padding:13px 22px;border-radius:10px;text-decoration:none">
+        📄 Télécharger le cours — Principes clés (PDF)
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DONNÉES FRISE ──
+const steps = [
+  {id:"ARPANET", name:"ARPANET",
+   label:"Quel premier réseau relie 4 universités américaines pour le Département de la Défense ?",
+   date:"1969", desc:"Infrastructure pionnière reliant quelques nœuds universitaires pour permettre l'échange de données entre chercheurs financés par l'armée."},
+  {id:"TCPIP",   name:"TCP/IP",
+   label:"Quel langage commun permet enfin à des réseaux hétérogènes de communiquer entre eux ?",
+   date:"1983", desc:"Ensemble de règles découpant les données en paquets et assurant leur acheminement fiable à travers des réseaux de natures différentes."},
+  {id:"TBL",     name:"Tim Berners-Lee",
+   label:"Qui propose, dans un laboratoire de physique suisse, un système de documents reliés par des hyperliens ?",
+   date:"1989", desc:"Chercheur britannique travaillant au CERN qui conçoit un système de partage de documents scientifiques via des références cliquables."},
+  {id:"FIRST",   name:"1ère page web",
+   label:"Quelle publication inaugure le World Wide Web et reste accessible à son adresse d'origine ?",
+   date:"1991", desc:"Premier document consultable via un navigateur, hébergé sur un serveur du CERN — il décrit le projet lui-même et est toujours en ligne."},
+  {id:"NETS",    name:"Netscape",
+   label:"Quel logiciel, conçu par des étudiants de l'Illinois, rend le Web accessible au grand public ?",
+   date:"1994", desc:"Navigateur graphique permettant pour la première fois d'afficher images et textes dans la même fenêtre, popularisant l'usage du Web hors des laboratoires."},
+  {id:"W20",     name:"Web 2.0",
+   label:"Quelle évolution transforme les internautes passifs en créateurs de contenu (blogs, vidéos, réseaux sociaux) ?",
+   date:"2004", desc:"Tournant du Web où les plateformes invitent les utilisateurs à produire et partager eux-mêmes textes, photos et vidéos plutôt que de simplement les consulter."},
+  {id:"IPH",     name:"Smartphone",
+   label:"Quel appareil présenté sur scène par Steve Jobs met Internet dans la poche de millions de personnes ?",
+   date:"2007", desc:"Terminal combinant téléphone, baladeur et navigateur web, déclenchant l'ère de la connexion permanente et mobile à Internet."},
+  {id:"IA",      name:"IA générative",
+   label:"Quelle technologie, rendue publique fin 2022, bouleverse la création de textes, images et codes informatiques ?",
+   date:"2022", desc:"Modèles capables de produire des contenus originaux (texte, image, code) à partir de simples instructions en langage naturel, rendus accessibles au grand public."}
+];
+
+// ── INIT FRISE ──
+function initFrise() {
+  const ftl   = document.getElementById('ftl');
+  const poolD = document.getElementById('pool-d');
+  const poolF = document.getElementById('pool-f');
+  const dates = steps.map(s => s.date).sort(() => Math.random() - 0.5);
+  const descs = steps.map(s => s.desc).sort(() => Math.random() - 0.5);
+  steps.forEach((step, i) => {
+    const row = document.createElement('div');
+    row.className = 'frow';
+    row.innerHTML = `
+      <div class="frowtitle"><span>${i+1}.</span> ${step.label}</div>
+      <div class="fcaps">
+        <div class="cap dc" id="cap-d-${i}" onclick="removeToken(this,'date')"><span class="clbl">DATE</span></div>
+        <div class="cap dfc" id="cap-f-${i}" onclick="removeToken(this,'desc')"><span class="clbl">DÉFINITION</span></div>
+      </div>`;
+    ftl.appendChild(row);
+  });
+  dates.forEach(d => {
+    const t = document.createElement('div');
+    t.className = 'ctok dt'; t.innerText = d;
+    t.onclick = () => autoPlace(t,'date');
+    poolD.appendChild(t);
+  });
+  descs.forEach(f => {
+    const t = document.createElement('div');
+    t.className = 'ctok df'; t.innerText = f;
+    t.onclick = () => autoPlace(t,'desc');
+    poolF.appendChild(t);
+  });
+}
+
+function autoPlace(token, type) {
+  if (token.classList.contains('used')) return;
+  const caps = document.querySelectorAll(type === 'date' ? '.cap.dc' : '.cap.dfc');
+  for (let cap of caps) {
+    if (!cap.classList.contains('filled')) {
+      const lbl = cap.querySelector('.clbl').outerHTML;
+      cap.innerHTML = lbl + token.innerText;
+      cap.classList.add('filled'); cap.dataset.value = token.innerText;
+      token.classList.add('used'); return;
+    }
+  }
+}
+
+function removeToken(cap, type) {
+  if (!cap.classList.contains('filled')) return;
+  const val = cap.dataset.value;
+  document.querySelectorAll('.ctok').forEach(t => {
+    if (t.innerText === val && t.classList.contains('used')) t.classList.remove('used');
+  });
+  cap.innerHTML = `<span class="clbl">${type === 'date' ? 'DATE' : 'DÉFINITION'}</span>`;
+  cap.classList.remove('filled','ok','ko'); delete cap.dataset.value;
+}
+
+function checkFrise() {
+  let allFilled = true;
+  steps.forEach((_,i) => {
+    if (!document.getElementById('cap-d-'+i).classList.contains('filled')) allFilled = false;
+    if (!document.getElementById('cap-f-'+i).classList.contains('filled')) allFilled = false;
+  });
+  if (!allFilled) { showFb('fb0',false,'⚠️ Place une date ET une définition sur chaque événement !'); return; }
+  let errors = 0; const details = [];
+  steps.forEach((step,i) => {
+    const capD = document.getElementById('cap-d-'+i);
+    const capF = document.getElementById('cap-f-'+i);
+    const dOk = capD.dataset.value === step.date;
+    const fOk = capF.dataset.value === step.desc;
+    capD.classList.remove('ok','ko'); capD.classList.add(dOk?'ok':'ko');
+    capF.classList.remove('ok','ko'); capF.classList.add(fOk?'ok':'ko');
+    // Reveal real name after validation
+    if (dOk && fOk) {
+      const title = document.querySelector('#ftl .frow:nth-child('+(i+1)+') .frowtitle');
+      if (title && !title.querySelector('.freveal')) {
+        const reveal = document.createElement('span');
+        reveal.className = 'freveal'; reveal.textContent = '→ ' + step.name;
+        title.appendChild(reveal);
+      }
+    }
+    if (!dOk||!fOk){ errors++; details.push('• <strong>'+step.name+'</strong> → '+(dOk?'date ✅':'date ❌ ('+step.date+')')+' | '+(fOk?'définition ✅':'définition ❌')); }
+  });
+  if (errors===0) {
+    showFb('fb0',true,'🎉 Parfait ! Toutes les cases sont correctes.');
+    const btn = document.getElementById('btn-frise');
+    btn.textContent='✅ Frise validée — Commencer le cours →'; btn.onclick=()=>unlock(1);
+  } else {
+    showFb('fb0',false,errors+' erreur(s) :<br>'+details.join('<br>')+'<br><br>Corrige ou continue.');
+    const btn = document.getElementById('btn-frise');
+    btn.textContent='→ Continuer malgré les erreurs'; btn.onclick=()=>unlock(1);
+  }
+}
+
+// ── UNLOCK ──
+function unlock(n) {
+  const card = document.getElementById('s'+n);
+  const dot  = document.getElementById('d'+n);
+  const prev = document.getElementById('d'+(n-1));
+  if (card) card.classList.remove('locked');
+  if (dot)  { dot.classList.remove('lock'); dot.classList.add('on'); }
+  if (prev) { prev.classList.remove('on'); prev.classList.add('ok'); }
+  updatePbar();
+  setTimeout(()=>{ if(card) card.scrollIntoView({behavior:'smooth',block:'start'}); },120);
+  if (n===5) document.getElementById('tbtn').style.display='block';
+}
+function updatePbar() {
+  const done = document.querySelectorAll('.dot.ok').length;
+  document.getElementById('pbar').style.width=(done/6*100)+'%';
+}
+
+// ── QCM PICK — FIX: properly highlights selection, resets on re-click ──
+function pick(el) {
+  // Walk up to find the .opts container
+  let optsEl = el.parentElement;
+  while (optsEl && !optsEl.classList.contains('opts')) optsEl = optsEl.parentElement;
+  if (!optsEl || optsEl.dataset.done) return;
+  optsEl.querySelectorAll('.opt').forEach(o => o.classList.remove('sel','ok','ko'));
+  el.classList.add('sel');
+}
+
+// ── GENERIC QCM CHECKER ──
+function checkQCMBlock(questDefs, fbId, nextN, btnClass) {
+  let score = 0, all = true;
+  questDefs.forEach(({id,c}) => {
+    const block = document.getElementById(id);
+    if (!block) return;
+    let optsEl = block.querySelector('.opts');
+    if (!optsEl) return;
+    if (optsEl.dataset.done) { score++; return; }
+    const sel = optsEl.querySelector('.opt.sel');
+    if (!sel) { all = false; return; }
+    const allOpts = Array.from(optsEl.querySelectorAll('.opt'));
+    const idx = allOpts.indexOf(sel);
+    allOpts.forEach(o => o.classList.remove('ok','ko','sel'));
+    allOpts[c].classList.add('ok');
+    const okEl = document.getElementById(id+'-ok');
+    const koEl = document.getElementById(id+'-ko');
+    if (idx === c) {
+      score++;
+      sel.classList.add('ok');
+      if (okEl) okEl.classList.add('show');
+    } else {
+      sel.classList.add('ko');
+      if (koEl) koEl.classList.add('show');
+    }
+    optsEl.dataset.done = '1';
+  });
+  if (!all) { showFb(fbId,false,'⚠️ Réponds à toutes les questions !'); return; }
+  const tot = questDefs.length;
+  showFb(fbId, score===tot, score===tot ? '🎉 Parfait ! '+tot+'/'+tot : score+'/'+tot+' — Lis bien les explications, puis continue.');
+  setTimeout(()=>unlock(nextN), 700);
+}
+
+function checkBlock(n) {
+  if (n===1) checkQCMBlock(
+    [{id:'q1a',c:1},{id:'q1b',c:2},{id:'q1c',c:2},{id:'q1d',c:1},{id:'q1e',c:3},{id:'q1f',c:0}],
+    'fb1', 2
+  );
+  else if (n===2) checkQCMBlock(
+    [{id:'q2a',c:2},{id:'q2b',c:1},{id:'q2c',c:1},{id:'q2d',c:0},{id:'q2e',c:0}],
+    'fb2', 3
+  );
+}
+
+// ── ASSOC ──
+const aState={term:null,def:null,tEl:null,dEl:null,matched:0};
+function pa(type,key,el) {
+  if (el.classList.contains('matched')) return;
+  if (type==='term') {
+    document.querySelectorAll('[id^="at-"]').forEach(e=>e.classList.remove('sel'));
+    el.classList.add('sel'); aState.term=key; aState.tEl=el;
+  } else {
+    document.querySelectorAll('[id^="ad-"]').forEach(e=>e.classList.remove('sel'));
+    el.classList.add('sel'); aState.def=key; aState.dEl=el;
+  }
+  if (aState.term && aState.def) {
+    if (aState.term===aState.def) {
+      aState.tEl.classList.add('matched'); aState.dEl.classList.add('matched');
+      aState.tEl.classList.remove('sel'); aState.dEl.classList.remove('sel');
+      aState.matched++;
+    } else {
+      const errT=aState.tEl, errD=aState.dEl;
+      errT.classList.add('err'); errD.classList.add('err');
+      setTimeout(()=>{ errT.classList.remove('err','sel'); errD.classList.remove('err','sel'); },500);
+    }
+    aState.term=null; aState.def=null; aState.tEl=null; aState.dEl=null;
+    if (aState.matched===5) document.getElementById('btn-assoc').disabled=false;
+  }
+}
+function checkAssoc() {
+  showFb('fb3',true,'🎉 Toutes les associations sont correctes !');
+  setTimeout(()=>unlock(4),600);
+}
+
+// ── TEXTE À TROUS ──
+let gWord=null, gActive=null;
+function pickWord(el) {
+  if (el.classList.contains('used')) return;
+  document.querySelectorAll('.wtok').forEach(t=>t.style.outline='');
+  gWord=el.dataset.w; el.style.outline='2px solid var(--c1)';
+  if (gActive) placeWord();
+}
+function focusGap(el) { gActive=el; if(gWord) placeWord(); }
+function placeWord() {
+  if (!gWord||!gActive) return;
+  const old=gActive.value;
+  if (old) document.querySelectorAll('.wtok').forEach(t=>{ if(t.dataset.w===old){t.classList.remove('used');t.style.outline='';} });
+  gActive.value=gWord;
+  document.querySelectorAll('.wtok').forEach(t=>{ if(t.dataset.w===gWord){t.classList.add('used');t.style.outline='';} });
+  gWord=null; gActive=null;
+}
+function checkGap() {
+  const inputs=document.querySelectorAll('.gin');
+  let correct=0,allFilled=true;
+  inputs.forEach(g=>{
+    if(!g.value){allFilled=false;return;}
+    const ok=g.value===g.dataset.ans;
+    g.classList.toggle('ok',ok); g.classList.toggle('ko',!ok);
+    if(ok) correct++;
+  });
+  if(!allFilled){showFb('fb4',false,'⚠️ Complète tous les espaces !');return;}
+  const ok=correct===inputs.length;
+  showFb('fb4',ok,ok?'🎉 Synthèse parfaite !':correct+'/'+inputs.length+' — Cases rouges à corriger.');
+  if(correct>=7){setTimeout(()=>unlock(5),700);}
+  else{
+    setTimeout(()=>{
+      const btn=document.querySelector('#s4 .btn.o');
+      if(btn){btn.textContent='→ Continuer malgré les erreurs';btn.onclick=()=>unlock(5);}
+    },900);
+  }
+}
+
+// ── UTILS ──
+function showFb(id,ok,msg){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.className='fb '+(ok?'ok':'ko'); el.innerHTML=msg;
+}
+
+// ── TEST FINAL ──
+const TQ=[
+  {type:'qcm',q:"Quel pourcentage du trafic Internet mondial transite par les câbles sous-marins en fibre optique ?",
+   opts:["Environ 50%","Environ 75%","Environ 99%","Environ 20%"],c:2},
+  {type:'qcm',q:"Que signifie l'acronyme URL (Uniform Resource Locator) ?",
+   opts:["Un type de routeur réseau","L'adresse unique d'une ressource sur le Web","Un protocole de sécurité","Le langage des pages web"],c:1},
+  {type:'vf',q:"VRAI ou FAUX — Le Web et Internet sont deux termes synonymes désignant la même chose.",
+   correct:'f',expl:"FAUX. Internet est le réseau physique mondial. Le Web est un service parmi d'autres qui utilise ce réseau."},
+  {type:'qcm',q:"Dans le schéma client/serveur, qu'envoie le navigateur au serveur quand tu tapes une URL ?",
+   opts:["Une réponse HTML","Un fichier CSS","Une requête HTTP","Un paquet TCP"],c:2},
+  {type:'qcm',q:"Que signifie le 'S' dans HTTPS (HyperText Transfer Protocol Secure) ?",
+   opts:["Standard","Serveur","Secure (les données sont chiffrées)","Synchronisé"],c:2},
+  {type:'vf',q:"VRAI ou FAUX — Envoyer un email depuis l'application Thunderbird utilise le Web.",
+   correct:'f',expl:"FAUX. Un client email utilise SMTP/IMAP, pas HTTP. Il utilise Internet, pas le Web."},
+  {type:'qcm',q:"Qui a inventé le Web, et dans quel établissement ?",
+   opts:["Bill Gates, chez Microsoft","Tim Berners-Lee, au CERN (Genève)","Marc Andreessen, à l'université de l'Illinois","Steve Jobs, chez Apple"],c:1},
+  {type:'qcm',q:"Quel protocole gère le découpage des données en paquets et leur acheminement sur Internet ?",
+   opts:["HTTP","SMTP","FTP","TCP/IP"],c:3},
+  {type:'qcm',q:"Quel composant d'Internet aiguille chaque paquet de données vers sa destination ?",
+   opts:["Le datacenter","Le câble sous-marin","Le navigateur","Le routeur"],c:3},
+  {type:'ordre',q:"Remets dans l'ordre les étapes d'une requête Web (du clic à l'affichage) :",
+   items:["Le serveur renvoie la page HTML","Le navigateur interprète le HTML et affiche la page","Tu tapes une URL et appuies sur Entrée","Le navigateur envoie une requête HTTP"],
+   correct:[2,3,0,1]},
+  {type:'qcm',q:"Pourquoi le contrôle des câbles sous-marins est-il un enjeu de souveraineté nationale ?",
+   opts:["Car ils transportent aussi de l'électricité entre les pays","Car les données d'un pays transitent par des câbles que d'autres États ou entreprises peuvent surveiller ou couper","Car leur construction nécessite des matériaux rares contrôlés par la Chine","Car ils remplacent progressivement les réseaux mobiles 5G"],c:1},
+  {type:'qcm',q:"Que signifie l'acronyme HTML (HyperText Markup Language) ?",
+   opts:["Un protocole de transfert sécurisé","Un langage balisé structurant les pages web","Un type d'adresse réseau","Un navigateur open source"],c:1},
+  {type:'vf',q:"VRAI ou FAUX — Le protocole HTTP suffit à garantir la confidentialité des données échangées entre navigateur et serveur.",
+   correct:'f',expl:"FAUX. HTTP ne chiffre pas les données — elles circulent en clair et peuvent être interceptées. C'est HTTPS qui ajoute le chiffrement (le S = Secure)."},
+  {type:'qcm',q:"Dans l'URL « https://www.education.fr/page », quel élément indique le protocole utilisé ?",
+   opts:["www","education.fr","/page","https"],c:3},
+];
+
+let tAns={}, tDone=false;
+
+function openTest(){
+  tAns={}; tDone=false;
+  document.getElementById('ov').classList.add('on');
+  document.getElementById('cancelled').style.display='none';
+  document.getElementById('sdisplay').style.display='none';
+  document.getElementById('bsub').style.display='none';
+  document.getElementById('bwarn').style.display='block';
+  document.getElementById('ovh').style.display='block';
+  const wrap=document.getElementById('tqs'); wrap.innerHTML='';
+  TQ.forEach((q,qi)=>{
+    const d=document.createElement('div'); d.className='tq';
+    let inner=`<div class="tqn">Question ${qi+1} / ${TQ.length}</div><div class="tqt">${q.q}</div>`;
+    if (q.type==='qcm') {
+      inner+=q.opts.map((o,oi)=>
+        `<div class="to" onclick="pickT(this,${qi},${oi})"><div class="radio"></div>${o}</div>`
+      ).join('');
+    } else if (q.type==='vf') {
+      inner+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">
+        <div class="to" onclick="pickT(this,${qi},'v')"><div class="radio"></div>✅ VRAI</div>
+        <div class="to" onclick="pickT(this,${qi},'f')"><div class="radio"></div>❌ FAUX</div>
+      </div>`;
+    } else if (q.type==='ordre') {
+      const shuffled=[...q.items.keys()].sort(()=>Math.random()-0.5);
+      inner+=`<div style="font-size:.78rem;color:var(--mu);margin-bottom:8px">Clique sur les étapes dans le bon ordre (1 → 4) :</div>`;
+      shuffled.forEach(idx=>{
+        inner+=`<div class="to ordre-item" id="oi-${qi}-${idx}" data-idx="${idx}" onclick="pickOrdre(this,${qi})">${q.items[idx]}</div>`;
+      });
+      inner+=`<div style="margin-top:8px;font-size:.78rem;color:var(--mu)">Ordre choisi : <span id="oseq-txt-${qi}">—</span></div>`;
+    }
+    d.innerHTML=inner; wrap.appendChild(d);
+  });
+  document.getElementById('ov').scrollTop=0;
+  checkAllAnswered();
+}
+
+function pickT(el,qi,oi){
+  if(tDone) return;
+  el.closest('.tq').querySelectorAll('.to').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel'); tAns[qi]=oi;
+  checkAllAnswered();
+}
+
+const ordreSeqs={};
+function pickOrdre(el,qi){
+  if(tDone) return;
+  if(!ordreSeqs[qi]) ordreSeqs[qi]=[];
+  const idx=parseInt(el.dataset.idx);
+  if(ordreSeqs[qi].includes(idx)){
+    ordreSeqs[qi]=ordreSeqs[qi].filter(x=>x!==idx);
+    el.classList.remove('sel');
+  } else {
+    ordreSeqs[qi].push(idx);
+    el.classList.add('sel');
+  }
+  const seqTxt=ordreSeqs[qi].map((x,i)=>(i+1)+'. '+TQ[qi].items[x].substring(0,35)+'…').join(' → ');
+  const seqEl=document.getElementById('oseq-txt-'+qi);
+  if(seqEl) seqEl.textContent=ordreSeqs[qi].length?seqTxt:'—';
+  if(ordreSeqs[qi].length===4) tAns[qi]=[...ordreSeqs[qi]];
+  else delete tAns[qi];
+  checkAllAnswered();
+}
+
+function checkAllAnswered(){
+  const allDone=TQ.every((_,i)=>tAns[i]!==undefined);
+  document.getElementById('bsub').style.display=allDone?'block':'none';
+}
+
+function cancelTest(){
+  document.getElementById('tqs').innerHTML='';
+  document.getElementById('bsub').style.display='none';
+  document.getElementById('bwarn').style.display='none';
+  document.getElementById('ovh').style.display='none';
+  document.getElementById('cancelled').style.display='block';
+  tAns={};
+}
+
+function submitTest(){
+  if(tDone) return; tDone=true;
+  let score=0; const errors=[];
+  TQ.forEach((q,i)=>{
+    let ok=false;
+    if(q.type==='qcm') ok=tAns[i]===q.c;
+    else if(q.type==='vf') ok=tAns[i]===q.correct;
+    else if(q.type==='ordre') ok=Array.isArray(tAns[i])&&tAns[i].length===4&&tAns[i].every((v,j)=>v===q.correct[j]);
+    if(ok) score++; else errors.push(i+1);
+  });
+  const note=Math.round(score/TQ.length*20);
+  document.getElementById('tqs').innerHTML='';
+  ['bsub','bwarn','ovh'].forEach(id=>document.getElementById(id).style.display='none');
+  const sd=document.getElementById('sdisplay'); sd.style.display='block';
+  const sn=document.getElementById('sn');
+  sn.textContent=note; sn.className='sn '+(note>=16?'hi':note>=10?'mi':'lo');
+  const cmts={
+    hi:['🚀 Excellent ! Maîtrise parfaite.','⭐ Bravo, tout est acquis !','🏆 Score remarquable !'],
+    mi:['📚 Bon travail, quelques points à revoir.','💪 Continue comme ça !'],
+    lo:['📖 Le cours mérite une relecture.','🔄 Reprends depuis le début.']
+  };
+  const cat=note>=16?'hi':note>=10?'mi':'lo';
+  document.getElementById('scmt').textContent=cmts[cat][Math.floor(Math.random()*cmts[cat].length)];
+  const bil=document.getElementById('bilan');
+  if(errors.length===0){
+    bil.innerHTML='<div class="btitle">Bilan</div><div class="bitem"><span class="bnum ok">✓</span><span>Toutes les réponses sont correctes !</span></div>';
+  } else {
+    let html='<div class="btitle">Bilan</div>';
+    for(let i=1;i<=TQ.length;i++){
+      const ko=errors.includes(i);
+      html+=`<div class="bitem"><span class="bnum ${ko?'ko':'ok'}">${i}</span><span class="bmsg ${ko?'ko':''}">${ko?'❌ À revoir avec le cours':'✅ Correcte'}</span></div>`;
+    }
+    bil.innerHTML=html;
+  }
+  document.getElementById('ov').scrollTop=0;
+}
+
+window.onload=initFrise;
+</script>
+
+</body>
+</html>
