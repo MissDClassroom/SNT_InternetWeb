@@ -146,9 +146,9 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
 .fb.ok{background:rgba(129,199,132,.1);border:1px solid rgba(129,199,132,.3);color:var(--c2);display:block}
 .fb.ko{background:rgba(240,98,146,.1);border:1px solid rgba(240,98,146,.3);color:var(--c4);display:block}
 /* TEST */
-#tbtn{position:fixed;bottom:26px;right:26px;background:linear-gradient(135deg,var(--c4),var(--c3));color:#000;border:none;border-radius:14px;padding:14px 22px;cursor:pointer;z-index:500;font-family:'Fraunces',serif;font-weight:900;font-size:1rem;box-shadow:0 6px 28px rgba(240,98,146,.4);display:none;animation:pulse 2s infinite}
+#tbtn{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--c4),var(--c3));color:#000;border:none;border-radius:14px;padding:14px 22px;cursor:pointer;z-index:500;font-family:'Fraunces',serif;font-weight:900;font-size:1rem;box-shadow:0 6px 28px rgba(240,98,146,.4);display:none;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 6px 28px rgba(240,98,146,.4)}50%{box-shadow:0 6px 44px rgba(240,98,146,.7)}}
-#tbtn:hover{transform:scale(1.04)}
+#tbtn:hover{transform:translateX(-50%) scale(1.04)}
 #ov{display:none;position:fixed;inset:0;background:var(--bg);z-index:900;overflow-y:auto;padding:36px 18px 60px}
 #ov.on{display:block}
 .ovh{text-align:center;margin-bottom:36px}
