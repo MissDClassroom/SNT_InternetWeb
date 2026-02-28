@@ -136,7 +136,7 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
 .gp{font-size:.92rem;color:var(--tx);line-height:2.6;background:var(--s2);border-radius:10px;padding:18px}
 .gin{display:inline-block;min-width:90px;border:none;border-bottom:2px solid var(--c1);background:transparent;color:var(--c1);font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;text-align:center;outline:none;padding:2px 6px;transition:all .2s}
 .gin:focus{background:rgba(79,195,247,.05);border-radius:4px}
-.gin.ok{border-bottom-color:var(--c2);color:var(--c2)}.gin.ko{border-bottom-color:var(--c4);color:var(--c4)}
+.gin.ok{border-bottom-color:var(--c2);color:var(--c2)}.gin.ko{border-bottom-color:var(--c4);color:var(--c4)}.gin.corrected{border-bottom-color:var(--c4);color:var(--c2);font-style:italic}
 .wbank{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .wtok{background:rgba(206,147,216,.12);border:1px solid rgba(206,147,216,.3);color:var(--c5);padding:5px 13px;border-radius:100px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}
 .wtok:hover{background:rgba(206,147,216,.22);transform:scale(1.04)}
@@ -254,10 +254,31 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
   <div class="note">💡 1,3 million km = plus de <strong>3× la distance Terre–Lune</strong>. Ces câbles ne font que quelques centimètres de diamètre — comme un tuyau d'arrosage.</div>
   <div class="igrid">
     <div class="ic"><div class="em">🌊</div><div class="lb">Câbles sous-marins</div><div class="vl" style="font-size:.8rem">Relient les continents au fond des océans</div></div>
-    <div class="ic"><div class="em">🔀</div><div class="lb">Routeurs</div><div class="vl" style="font-size:.8rem">Aiguillent chaque paquet de données</div></div>
+    <div class="ic"><div class="em">🔀</div><div class="lb">Routeurs</div><div class="vl" style="font-size:.8rem">Aiguillent chaque paquet de données vers sa destination</div></div>
     <div class="ic"><div class="em">🏭</div><div class="lb">Datacenters</div><div class="vl" style="font-size:.8rem">Bâtiments hébergeant les serveurs</div></div>
     <div class="ic"><div class="em">🛰️</div><div class="lb">Satellites</div><div class="vl" style="font-size:.8rem">Zones isolées — 1% du trafic seulement</div></div>
   </div>
+  <h3 class="o">🔍 Trois composants à ne pas confondre</h3>
+  <table class="tbl">
+    <thead><tr><th>Composant</th><th>Rôle</th><th>Analogie</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong style="color:var(--c3)">🔀 Routeur</strong></td>
+        <td>Reçoit les paquets de données et décide du chemin le plus rapide pour les acheminer vers leur destination, à travers le réseau mondial.</td>
+        <td>Le <em>panneau de signalisation</em> sur l'autoroute — il oriente le trafic sans stocker quoi que ce soit.</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--c3)">🏭 Datacenter</strong></td>
+        <td>Bâtiment climatisé et sécurisé qui héberge des milliers de serveurs. C'est là que sont physiquement stockées les données des sites web, applications et services cloud.</td>
+        <td>L'<em>entrepôt</em> — il stocke les marchandises (données) sans les livrer lui-même.</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--c3)">🖥️ Serveur</strong></td>
+        <td>Ordinateur puissant situé dans un datacenter qui répond aux requêtes des clients (navigateurs). Il stocke les pages web et les envoie quand on les demande.</td>
+        <td>Le <em>vendeur dans l'entrepôt</em> — il reçoit ta commande et te livre la bonne page web.</td>
+      </tr>
+    </tbody>
+  </table>
   <h3 class="o">🗺️ Carte interactive</h3>
   <p>Observe le réseau mondial en temps réel : <a href="https://www.submarinecablemap.com" target="_blank">submarinecablemap.com ↗</a></p>
   <h3 class="o">🎬 Vidéo Arte — "Câbles sous-marins : la guerre invisible" (13 min)</h3>
@@ -453,6 +474,28 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
 </div></div>
     <div class="ic"><div class="em">🖥️</div><div class="lb">Navigateur</div><div class="vl" style="font-size:.78rem">Chrome, Firefox… : interprète et affiche le HTML</div></div>
   </div>
+  <h3 class="v">🌐 Et WWW, c'est quoi ?</h3>
+  <div class="igrid" style="grid-template-columns:1fr 1fr;margin-bottom:6px">
+    <div class="ic" style="grid-column:1/2">
+      <div class="em">🌐</div>
+      <div class="lb">WWW</div>
+      <div class="vl" style="font-size:.74rem">
+        <div style="color:var(--c3);font-weight:700;font-size:.72rem;letter-spacing:.5px;margin-bottom:3px">World Wide Web</div>
+        <div style="color:var(--mu);font-size:.7rem;font-style:italic;margin-bottom:4px">= "La Toile mondiale"</div>
+        Nom complet du Web — l'ensemble des pages accessibles via Internet
+      </div>
+    </div>
+    <div class="ic" style="grid-column:2/3">
+      <div class="em">🔗</div>
+      <div class="lb">www dans une URL</div>
+      <div class="vl" style="font-size:.74rem">
+        Sous-domaine historique désignant le serveur web.<br>
+        <code style="color:var(--c1);font-size:.68rem">https://<strong>www</strong>.education.fr</code><br>
+        <span style="color:var(--mu);font-size:.7rem">Souvent facultatif aujourd'hui.</span>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="margin-bottom:18px">💡 <strong>WWW ≠ Internet.</strong> Le <em>World Wide Web</em> est le nom de l'ensemble des pages web reliées par des liens hypertextes — c'est <em>un</em> service d'Internet, inventé par Tim Berners-Lee en 1989. Quand tu vois <code style="color:var(--c1)">www.</code> dans une URL, c'est simplement l'indication que tu accèdes au serveur web de ce domaine.</div>
   <h3 class="v">Le schéma client / serveur</h3>
   <div class="schema">
     <div class="sb"><span>🖥️</span>Navigateur<br><small>(client)</small></div>
@@ -477,6 +520,7 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
         <div class="ai" id="at-url" onclick="pa('term','url',this)">URL</div>
         <div class="ai" id="at-nav" onclick="pa('term','nav',this)">Navigateur</div>
         <div class="ai" id="at-srv" onclick="pa('term','srv',this)">Serveur</div>
+        <div class="ai" id="at-www" onclick="pa('term','www',this)">WWW</div>
       </div>
       <div class="acol">
         <div class="albl">Définitions</div>
@@ -485,6 +529,7 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
         <div class="ai" id="ad-http" onclick="pa('def','http',this)">Protocole de communication navigateur ↔ serveur</div>
         <div class="ai" id="ad-html" onclick="pa('def','html',this)">Langage balisé structurant le contenu d'une page</div>
         <div class="ai" id="ad-nav" onclick="pa('def','nav',this)">Logiciel qui interprète le HTML et affiche la page</div>
+        <div class="ai" id="ad-www" onclick="pa('def','www',this)">Nom complet du Web : l'ensemble des pages reliées par des liens</div>
       </div>
     </div>
     <div id="fb3" class="fb"></div>
@@ -534,7 +579,7 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
   <div class="ovh" id="ovh">
     <div class="chip">Évaluation finale</div>
     <h2>⏱️ TEST FINAL</h2>
-    <p style="color:var(--mu)">14 questions · Réponds à tout avant de valider !</p>
+    <p style="color:var(--mu)">16 questions · Réponds à tout avant de valider !</p>
   </div>
   <div id="tqs"></div>
   <button id="bsub" onclick="submitTest()">📊 Calculer mon score</button>
@@ -772,7 +817,7 @@ function pa(type,key,el) {
       setTimeout(()=>{ errT.classList.remove('err','sel'); errD.classList.remove('err','sel'); },500);
     }
     aState.term=null; aState.def=null; aState.tEl=null; aState.dEl=null;
-    if (aState.matched===5) document.getElementById('btn-assoc').disabled=false;
+    if (aState.matched===6) document.getElementById('btn-assoc').disabled=false;
   }
 }
 function checkAssoc() {
@@ -800,15 +845,24 @@ function placeWord() {
 function checkGap() {
   const inputs=document.querySelectorAll('.gin');
   let correct=0,allFilled=true;
+  const corrections=[];
   inputs.forEach(g=>{
     if(!g.value){allFilled=false;return;}
     const ok=g.value===g.dataset.ans;
     g.classList.toggle('ok',ok); g.classList.toggle('ko',!ok);
     if(ok) correct++;
+    else {
+      // Show correct answer directly in the input
+      g.dataset.wrong=g.value;
+      g.value=g.dataset.ans;
+      g.classList.add('corrected');
+      corrections.push('<strong style="color:var(--c4)">'+g.dataset.wrong+'</strong> → <strong style="color:var(--c2)">'+g.dataset.ans+'</strong>');
+    }
   });
   if(!allFilled){showFb('fb4',false,'⚠️ Complète tous les espaces !');return;}
   const ok=correct===inputs.length;
-  showFb('fb4',ok,ok?'🎉 Synthèse parfaite !':correct+'/'+inputs.length+' — Cases rouges à corriger.');
+  const corrMsg=corrections.length?'<br><br>📝 Corrections : '+corrections.join(' · '):'';
+  showFb('fb4',ok,ok?'🎉 Synthèse parfaite !':correct+'/'+inputs.length+' corrigé(s) — Les cases rouges affichent maintenant la bonne réponse.'+corrMsg);
   if(correct>=7){setTimeout(()=>unlock(5),700);}
   else{
     setTimeout(()=>{
@@ -856,6 +910,10 @@ const TQ=[
    correct:'f',expl:"FAUX. HTTP ne chiffre pas les données — elles circulent en clair et peuvent être interceptées. C'est HTTPS qui ajoute le chiffrement (le S = Secure)."},
   {type:'qcm',q:"Dans l'URL « https://www.education.fr/page », quel élément indique le protocole utilisé ?",
    opts:["www","education.fr","/page","https"],c:3},
+  {type:'qcm',q:"Que signifie WWW dans une adresse web comme « www.education.fr » ?",
+   opts:["Wireless Web Worldwide — le réseau Wi-Fi mondial","World Wide Web — la toile mondiale, nom complet du Web","Windows Web Wizard — un protocole Microsoft","Wide Wireless Web — la connexion sans fil à Internet"],c:1},
+  {type:'vf',q:"VRAI ou FAUX — WWW et Internet désignent la même chose.",
+   correct:'f',expl:"FAUX. Internet est le réseau physique mondial (câbles, routeurs). Le WWW (World Wide Web) est un service qui fonctionne sur Internet — l'ensemble des pages web reliées par des liens hypertextes."},
 ];
 
 let tAns={}, tDone=false;
