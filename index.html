@@ -568,7 +568,7 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
 <div class="card locked" id="s5" style="text-align:center">
   <div style="font-size:3rem;margin-bottom:12px">🎉</div>
   <h2 style="font-family:'Fraunces',serif;font-size:1.6rem;color:#fff;margin-bottom:10px">Cours terminé !</h2>
-  <p>Tu as validé toutes les étapes. Le <strong>test final</strong> apparaît en bas à droite.</p>
+  <p>Tu as validé toutes les étapes. Clique sur le bouton <strong>TEST FINAL</strong> en bas de page.</p>
   <p style="margin-top:8px">Prends 2 minutes pour revoir tes points faibles avant de te lancer. Appelle ton professeur <em>avant</em> de cliquer sur "Obtenir ma note".</p>
 </div>
 </main>
@@ -580,6 +580,13 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
     <div class="chip">Évaluation finale</div>
     <h2>⏱️ TEST FINAL</h2>
     <p style="color:var(--mu)">16 questions · Réponds à tout avant de valider !</p>
+    <div style="margin:16px auto;max-width:380px">
+      <input id="eleve-nom" type="text" placeholder="Ton prénom et ton nom…"
+        style="width:100%;padding:12px 16px;border-radius:10px;border:2px solid var(--bd);background:var(--s2);color:var(--tx);font-family:'Outfit',sans-serif;font-size:.95rem;outline:none;text-align:center"
+        oninput="checkAllAnswered()"
+        onfocus="this.style.borderColor='var(--c1)'"
+        onblur="this.style.borderColor='var(--bd)'">
+    </div>
   </div>
   <div id="tqs"></div>
   <button id="bsub" onclick="submitTest()">📊 Calculer mon score</button>
@@ -590,6 +597,7 @@ a{color:var(--c1);text-decoration:none}a:hover{text-decoration:underline}
     <button class="btn-rs" onclick="openTest()">🔄 Recommencer</button>
   </div>
   <div id="sdisplay">
+    <div id="eleve-nom-display" style="font-size:1rem;font-weight:700;color:var(--c1);margin-bottom:12px"></div>
     <div style="font-size:.85rem;color:var(--mu);margin-bottom:6px">Ta note</div>
     <div class="sn" id="sn"></div>
     <div style="font-size:.95rem;color:var(--mu);margin-top:6px">/ 20</div>
@@ -889,7 +897,7 @@ const TQ=[
    correct:'f',expl:"FAUX. Internet est le réseau physique mondial. Le Web est un service parmi d'autres qui utilise ce réseau."},
   {type:'qcm',q:"Dans le schéma client/serveur, qu'envoie le navigateur au serveur quand tu tapes une URL ?",
    opts:["Une réponse HTML","Un fichier CSS","Une requête HTTP","Un paquet TCP"],c:2},
-  {type:'qcm',q:"Que signifie le 'S' dans HTTPS (HyperText Transfer Protocol Secure) ?",
+  {type:'qcm',q:"Que signifie le 'S' dans HTTPS ?",
    opts:["Standard","Serveur","Secure (les données sont chiffrées)","Synchronisé"],c:2},
   {type:'vf',q:"VRAI ou FAUX — Envoyer un email depuis l'application Thunderbird utilise le Web.",
    correct:'f',expl:"FAUX. Un client email utilise SMTP/IMAP, pas HTTP. Il utilise Internet, pas le Web."},
@@ -981,8 +989,10 @@ function pickOrdre(el,qi){
 }
 
 function checkAllAnswered(){
+  const nom=document.getElementById('eleve-nom');
+  const nomOk=nom && nom.value.trim().length>0;
   const allDone=TQ.every((_,i)=>tAns[i]!==undefined);
-  document.getElementById('bsub').style.display=allDone?'block':'none';
+  document.getElementById('bsub').style.display=(allDone && nomOk)?'block':'none';
 }
 
 function cancelTest(){
@@ -1008,6 +1018,8 @@ function submitTest(){
   document.getElementById('tqs').innerHTML='';
   ['bsub','bwarn','ovh'].forEach(id=>document.getElementById(id).style.display='none');
   const sd=document.getElementById('sdisplay'); sd.style.display='block';
+  const nomVal=document.getElementById('eleve-nom').value.trim();
+  document.getElementById('eleve-nom-display').textContent=nomVal?'👤 '+nomVal:'';
   const sn=document.getElementById('sn');
   sn.textContent=note; sn.className='sn '+(note>=16?'hi':note>=10?'mi':'lo');
   const cmts={
